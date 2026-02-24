@@ -11,24 +11,15 @@ class VideoService:
     def get_video_by_id(self, video_id: uuid.UUID) -> Video:
         return self.videoRepository.get_by_id(id=video_id)
 
-    def get_views_count(self, video_id: uuid.UUID):
-        if video_id is not None:
-            video = self.get_video_by_id(video_id=video_id)
-            if video:
-                video.views += 1
-                self.videoRepository.save(video)
-                return video.views
-        return None
-
-    def register_view(self, video_id: uuid.UUID):
+    def register_view(self, video_id: uuid.UUID) -> int:
         video = self.get_video_by_id(video_id=video_id)
         if video is None:
             raise ValueError("Video não localizado.")
+        video.views += 1
+        self.videoRepository.save(video)
+        return video.views
 
-        views = self.get_views_count(video_id=video.id)
-        return video, views
-
-    def register_like(self, video_id: uuid.UUID, user: User):
+    def register_like(self, video_id: uuid.UUID, user: User) -> int:
         video = self.get_video_by_id(video_id=video_id)
 
         if video is None:
@@ -42,9 +33,5 @@ class VideoService:
 
     def get_top_liked_videos(self, limit: int = 10) -> list[Video]:
         all_videos = self.videoRepository.get_all()
-        ranking = sorted(
-            all_videos,
-            key=lambda v: len(v.likes),
-            reverse=True
-        )       
+        ranking = sorted(all_videos, key=lambda v: len(v.likes), reverse=True)
         return ranking[:limit]

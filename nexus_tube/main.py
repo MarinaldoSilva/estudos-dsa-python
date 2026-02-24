@@ -7,7 +7,6 @@ from services.user_service import UserService
 
 
 def main():
-
     video_repo = VideoRepository()
     user_repo = UserRepository()
 
@@ -24,8 +23,9 @@ def main():
 
     for _ in range(4):
         try:
-            v, views = video_service.register_view(video_id=video.id)
-            print(f"Vídeo Assistido: '{v.titulo}' - Total Views: {views}")
+            views = video_service.register_view(video_id=video.id)
+            print(f"Vídeo Assistido: '{video.titulo}' - Total Views: {views}")
+
         except ValueError as e:
             print(f"Erro ao assistir: {e}")
 

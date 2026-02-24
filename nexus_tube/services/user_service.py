@@ -12,7 +12,7 @@ class UserService:
             raise ValueError("Usuário não localizado")
         return self.userRepository.get_by_id(user_id=user_id)
 
-    def get_user_likes_count(self, user: User):
+    def get_user_likes_count(self, user: User) -> int:
         if not user:
             raise ValueError("Usuário não localizado")
         likes_user = len(user.likes_videos)
