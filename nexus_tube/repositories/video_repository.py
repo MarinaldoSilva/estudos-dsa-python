@@ -6,7 +6,7 @@ class VideoRepository:
     def __init__(self, db: dict = None):
         self._db = db if db is not None else {}
 
-    def save(self, video: Video):
+    def save(self, video: Video) -> Video:
         if not video:
             raise ValueError("Vídeo não enviado!")
         self._db[video.id] = video
